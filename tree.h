@@ -7,7 +7,7 @@ typedef struct node {
     struct node * left;
     struct node * right;
     struct node * father;
-    int BF;
+    int BF; // balance factor
 } Node;
 
 typedef struct avltree {
@@ -16,7 +16,7 @@ typedef struct avltree {
 
 Node * createNode(char * word, char * meaning);
 
-AvlTree * createTree();
+AvlTree * createDictionary();
 
 int emptyTree(AvlTree * Tree);
 
@@ -28,8 +28,10 @@ void LR(AvlTree * T, Node * n);
 
 void RL(AvlTree * T, Node * n);
 
+void balance(AvlTree * Tree, Node * n);
+
 Node * RecursiveInsertion(Node * newWord, Node * currentNode);
 
-void insertTree(char * word, char * meaning, AvlTree * Tree);
+void insert(char * word, char * meaning, AvlTree * Tree);
 
 #endif

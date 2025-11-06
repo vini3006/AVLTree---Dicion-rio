@@ -24,5 +24,12 @@ int main (){
         }
     }
     */
+    AvlTree * dictionary = createDictionary();
+    insert("casa", "local para morar", dictionary);
+    insert("dedo", "parte do corpo", dictionary);
+    insert("escada", "lugar pra subir", dictionary);
+    printf("%s\n", dictionary->root->word);
+    printf("%s\n", dictionary->root->left->word);
+    printf("%s\n", dictionary->root->right->word);
     return 0;
 }
