@@ -16,9 +16,11 @@ typedef struct avltree {
 
 Node * createNode(char * word, char * meaning);
 
-AvlTree * createDictionary();
+AvlTree * createTree();
 
 int emptyTree(AvlTree * Tree);
+
+int height(Node * n);
 
 void LL(AvlTree * T, Node * n);
 
@@ -32,6 +34,12 @@ void balance(AvlTree * Tree, Node * n);
 
 Node * RecursiveInsertion(Node * newWord, Node * currentNode);
 
-void insert(char * word, char * meaning, AvlTree * Tree);
+void insertWord(char * word, char * meaning, AvlTree * Tree);
+
+Node * searchWord(char * word, AvlTree * T, int print);
+
+Node * predecessor(Node * n);
+
+void removeWord(char * word, AvlTree * Tree);
 
 #endif
