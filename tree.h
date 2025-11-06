@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
+#ifndef TREE
+#define TREE
 
 typedef struct node {
     char * word;
@@ -22,6 +20,16 @@ AvlTree * createTree();
 
 int emptyTree(AvlTree * Tree);
 
+void LL(AvlTree * T, Node * n);
+
+void RR(AvlTree * T, Node * n);
+
+void LR(AvlTree * T, Node * n);
+
+void RL(AvlTree * T, Node * n);
+
 Node * RecursiveInsertion(Node * newWord, Node * currentNode);
 
 void insertTree(char * word, char * meaning, AvlTree * Tree);
+
+#endif

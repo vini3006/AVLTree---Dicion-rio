@@ -24,6 +24,60 @@ int emptyTree(AvlTree * Tree){
    Tree->root == NULL ? 1 : 0;
 }
 
+void LL(AvlTree * T, Node * n){
+    Node * aux = n->right;
+
+    n->right = aux->left;
+    aux->left = n;
+
+    if (n->father != NULL){
+        if (n == n->father->right){
+            n->father->right = aux;
+        } else {
+            n->father->left = aux;
+        }
+    } else {
+        T->root = aux;
+    }
+    
+    aux->father = n->father;
+    n->father = aux;
+    if (n->right != NULL) n->right->father = n;
+}
+
+void RR(AvlTree * T, Node * n){
+    Node * aux = n->left;
+
+    n->left = aux->right;
+    aux->right = n;
+
+    if (n->father != NULL){
+        if (n == n->father->right){
+            n->father->right = aux;
+        } else {
+            n->father->left = aux;
+        }
+    } else {
+        T->root = aux;
+    }
+
+    aux->father = n->father;
+    n->father = aux;
+    if (n->left != NULL) n->left->father = n;
+}
+
+void LR(AvlTree * T, Node * n){
+    Node * aux = n->left;
+    LL(T, aux);
+    RR(T, n);
+}
+
+void RL(AvlTree * T, Node * n){
+    Node * aux = n->right;
+    RR(T, aux);
+    LL(T, n);
+}
+
 Node * RecursiveInsertion(Node * newWord, Node * currentNode) {
     if (currentNode == NULL){
         return newWord;
@@ -39,7 +93,7 @@ Node * RecursiveInsertion(Node * newWord, Node * currentNode) {
     }
 
     if (strcmp(newWord->word, currentNode->word) > 0){
-        currentNode->right = RecursiveInsertion(newWord, currentNode->left);
+        currentNode->right = RecursiveInsertion(newWord, currentNode->right );
     }
 
     return currentNode;
