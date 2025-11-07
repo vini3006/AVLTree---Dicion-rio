@@ -23,6 +23,7 @@ Node * createNode(char * word, char * meaning){
 AvlTree * createTree() {    
     AvlTree * newTree = malloc(sizeof(AvlTree));
     newTree -> root = NULL;
+    printf("Árvore criada com sucesso!\n");
     return newTree;
 }
 
@@ -33,15 +34,24 @@ int emptyTree(AvlTree * Tree){
 }
 
 // Calcula a altura do nó 
-int height(Node * n){
-    if (n == NULL) return -1;
+int height(AvlTree* Tree, Node * n){
+    Node * aux = Tree->root;
+    int h = 1;
 
-    int left = height(n->left);
-    int right = height(n->right);
+       while (aux != NULL){
+        int cmp = strcmp (n->word, aux->word);
+        
+        if(cmp == 0) break;
 
-    return 1 + (left > right ? left : right);
+        if(cmp < 0){
+            aux = aux->left;
+        } else {
+            aux = aux->right;
+        }
+        h++;
+    }
+    return h;
 }
-
 // Rotações
 
 void LL(AvlTree * T, Node * n){
@@ -137,32 +147,64 @@ void balance(AvlTree * Tree, Node * n){
         }
     }
 
-    balance(Tree, father);
-}
+    if(n->father != NULL) balance(Tree, father);
+}  
 
 // Faz a inserção recursivamente atualizando os FBs e retorna um ponteiro pro nó raiz ao final
-Node * RecursiveInsertion(Node * newWord, Node * currentNode) {
-    if (currentNode == NULL){
-        printf("Inserção de %s com sucesso.\n", newWord->word);
+Node * RecursiveInsertion(AvlTree * Tree, Node * newWord, Node * currentNode, int * height_changed) {
+    if (currentNode == NULL){   
+        * height_changed = 1;
+        printf("\nInserção de %s com sucesso.\n", newWord->word);
         return newWord;
     }
 
     int cmp = strcmp(newWord->word, currentNode->word);
 
     if (cmp == 0) { 
-        printf("Operação de Inserção de %s sem sucesso. Palavra já existe no dicionário.\n", newWord->word);
+        * height_changed = 0;
+        printf("\nOperação de Inserção de %s sem sucesso. Palavra já existe no dicionário.\n", newWord->word);
         return currentNode;
     } 
     
     if (cmp < 0){
-        currentNode->left = RecursiveInsertion(newWord, currentNode->left);
+        currentNode->left = RecursiveInsertion(Tree, newWord, currentNode->left, height_changed);
         if(currentNode->left != NULL) currentNode->left->father = currentNode;
-        currentNode->BF++;
+
+        if(* height_changed == 1)currentNode->BF++;
+
+        if(currentNode->BF == 0) * height_changed = 0;
+
+        else if(currentNode->BF == 2){
+            if(currentNode->left->BF == -1){
+                LR(Tree, currentNode);
+            } else {
+                RR(Tree, currentNode);
+            }
+
+            * height_changed = 0;
+
+            return currentNode->father;
+        }
     } 
     else if (cmp > 0){
-        currentNode->right = RecursiveInsertion(newWord, currentNode->right);
+        currentNode->right = RecursiveInsertion(Tree, newWord, currentNode->right, height_changed);
         if(currentNode->right != NULL) currentNode->right->father = currentNode;
-        currentNode->BF--;
+
+        if(* height_changed == 1) currentNode->BF--;
+
+        if(currentNode->BF == 0) * height_changed = 0;
+
+        else if(currentNode->BF == -2){
+            if(currentNode->right->BF == 1){
+                RL(Tree, currentNode);
+            } else {
+                LL(Tree, currentNode);
+            }
+
+            * height_changed = 0;
+
+            return currentNode->father;
+        }
     }
 
     return currentNode;
@@ -171,30 +213,29 @@ Node * RecursiveInsertion(Node * newWord, Node * currentNode) {
 // Faz a chamada da inserção recursiva e rebalancea a árvore
 void insertWord(char * word, char * meaning, AvlTree * Tree){
     if (Tree == NULL) {
-        printf("Árvore não encontrada.\n");
+        printf("\nÁrvore não encontrada.\n");
         return; 
     }
 
     Node * newWord = createNode(word, meaning);
-    Tree->root = RecursiveInsertion(newWord, Tree->root);
-    if(newWord->father != NULL) {
-        balance(Tree, newWord->father);
-    }
+
+    int height_changed = 0;
+
+    Tree->root = RecursiveInsertion(Tree, newWord, Tree->root, &height_changed);
 }
 
 // Realiza a busca de uma palavra e retorna o nó que guarda a mesma (caso exista)
 Node * searchWord(char * word, AvlTree * T, int print){
     if (T == NULL){
-        if(print) printf("Árvore não encontrada!\n");
+        if(print) printf("\nÁrvore não encontrada!\n");
         return NULL;
     }
 
     Node * searcher = T->root;
-    int height = 0;
 
     while (searcher != NULL){
         int cmp = strcmp (word, searcher->word);
-
+        
         if(cmp == 0) break;
 
         if(cmp < 0){
@@ -202,13 +243,12 @@ Node * searchWord(char * word, AvlTree * T, int print){
         } else {
             searcher = searcher->right;
         }
-        height++;
     }
 
     if (searcher == NULL){
-        if(print) printf("Busca sem sucesso!\n");
+        if(print) printf("\nBusca sem sucesso!\n");
     } else {
-        if(print) printf("%s está no dicionário (Altura = %d)\n%s\n", searcher->word, height, searcher->meaning);
+        if(print) printf("\n%s está no dicionário (Altura = %d)\n%s\n", searcher->word, height(T, searcher), searcher->meaning);
     }
 
     return searcher;
@@ -230,7 +270,7 @@ Node * predecessor(Node * n){
 void removeWord(char * word, AvlTree * Tree){
     Node * aux = searchWord(word, Tree, 0);
     if (aux == NULL){
-        printf("Operação de remoção inválida!\n");
+        printf("\nOperação de remoção inválida!\n");
         return;
     }
 
@@ -288,9 +328,22 @@ void removeWord(char * word, AvlTree * Tree){
 
         free(predWord);
         free(predMeaning);
-        return;
     }
 
     if(father != NULL) balance(Tree, father);
+}
+
+void inOrderPrint(AvlTree * Tree, Node * n){
+    if (n == NULL) return;
+
+    inOrderPrint(Tree, n->left);
+    printf("%s (Altura = %d) ", n->word, height(Tree, n));
+    inOrderPrint(Tree, n->right);
+}
+
+void printTree(AvlTree * Tree){
+    printf("\nDicionário: ");
+    inOrderPrint(Tree, Tree->root);
+    printf("\n");
 }
 

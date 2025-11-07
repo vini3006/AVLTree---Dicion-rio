@@ -1,37 +1,49 @@
 Árvores criadas sucesso
 
-Inserção de Quieto com sucesso
-
-Inserção de Roedor com sucesso
-
-Inserção de Pata com sucesso
-
-Inserção de Lápis com sucesso
+Inserção de Foca com sucesso
 
 Inserção de Escola com sucesso
 
+Inserção de Casa com sucesso
+
+Inserção de Juiz com sucesso
+
 Inserção de Gato com sucesso
 
-Escola h=2 Gato h=3 Lápis h=1 Pata h=3 Quieto h=2 Roedor h=3
+Casa h=2 Escola h=1 Foca h=3 Gato h=2  Juiz h=3
 
-Inserção de Faca com sucesso
+Casa removido com sucesso
 
-Inserção de Dado com sucesso
+Escola h=2 Foca h=3 Gato h=1  Juiz h=2
 
-Inserção de Bola com sucesso
+Inserção de Kate com sucesso
 
- Bola h=4 Dado h=3 Escola h=4 Faca h=2 Gato h=3 Lápis h=1 Pata h=3 Quieto h=2 Roedor h=3
+Inserção de Pirulito com sucesso
 
-Inserção de Abacaxi com sucesso
+Escola h=2 Foca h=3 Gato h=1 Juiz h=3 Kate h=2 Pirulito h=3
 
-Abacaxi h=4 Bola h=3 Dado h=2 Escola h=4 Faca h=3 Gato h=4 Lápis h=1 Pata h=3 Quieto h=2 Roedor h=3
+Inserção de Legografia com sucesso
 
-Quieto removido com sucesso
+Inserção de Opção com sucesso
 
-Pata removido com sucesso
+Escola h=2 Foca h=3 Gato h=1 Juiz h=3 Kate h=2 Legografia h=4 Opção h=3 Pirulito h=4
 
-Abacaxi h=3 Bola h=2 Dado h=1 Escola h=4 Faca h=3 Gato h=4 Lápis h=2 Roedor h=3
+Casa removido com Pirulito
 
-Abacaxi removido com sucesso
+Casa removido com Opção
 
-Bola h=3 Dado h=2 Escola h=3 Faca h=1 Gato h=3 Lápis h=2 Roedor h=3
+Casa removido com Kate
+
+Casa removido com Juiz
+
+Escola h=2 Foca h=3 Gato h=1 Legografia h=2
+
+Escola h=2 Foca h=1 Gato h=2
+
+Pirulito não encontrado no dicionário
+
+Gato encontrado no dicionário h=2
+Gato: Pequeno mamífero carnívoro, doméstico, da fam. dos felídeos (Felis catus).
+
+Foca encontrado no dicionário h=1
+Foca: Denominação comum a vários mamíferos pinípedes, aquáticos, carnívoros.

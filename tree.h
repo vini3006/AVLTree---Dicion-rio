@@ -18,9 +18,9 @@ Node * createNode(char * word, char * meaning);
 
 AvlTree * createTree();
 
-int emptyTree(AvlTree * Tree);
+int emptyTree(AvlTree * T);
 
-int height(Node * n);
+int height(AvlTree * T, Node * n);
 
 void LL(AvlTree * T, Node * n);
 
@@ -30,16 +30,20 @@ void LR(AvlTree * T, Node * n);
 
 void RL(AvlTree * T, Node * n);
 
-void balance(AvlTree * Tree, Node * n);
+void balance(AvlTree * T, Node * n);
 
-Node * RecursiveInsertion(Node * newWord, Node * currentNode);
+Node * RecursiveInsertion(AvlTree * T, Node * newWord, Node * currentNode, int * height_changed);
 
-void insertWord(char * word, char * meaning, AvlTree * Tree);
+void insertWord(char * word, char * meaning, AvlTree * T);
 
 Node * searchWord(char * word, AvlTree * T, int print);
 
 Node * predecessor(Node * n);
 
-void removeWord(char * word, AvlTree * Tree);
+void removeWord(char * word, AvlTree * T);
+
+void inOrderPrint(AvlTree * T, Node * n);
+
+void printTree(AvlTree * T);
 
 #endif
