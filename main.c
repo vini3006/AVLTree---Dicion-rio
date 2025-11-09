@@ -79,5 +79,8 @@ int main (){
             }
         }
     }
+
+    freeTree(dictionary);
+    
     return 0;
 }

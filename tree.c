@@ -347,3 +347,24 @@ void printTree(AvlTree * Tree){
     printf("\n");
 }
 
+void freeNodeRecursive(Node * n) {
+    if (n == NULL) return;
+
+    freeNodeRecursive(n->left);
+    freeNodeRecursive(n->right);
+
+    if (n->word != NULL) free(n->word);
+    if (n->meaning != NULL) free(n->meaning);
+
+    free(n);
+}
+
+void freeTree(AvlTree *T) {
+    if (T == NULL) return;
+
+    freeNodeRecursive(T->root);
+    T->root = NULL;
+
+    free(T);
+}
+

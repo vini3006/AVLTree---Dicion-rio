@@ -46,4 +46,8 @@ void inOrderPrint(AvlTree * T, Node * n);
 
 void printTree(AvlTree * T);
 
+void freeNodeRecursive(Node * n);
+
+void freeTree(AvlTree *T);
+
 #endif
