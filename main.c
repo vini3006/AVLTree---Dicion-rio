@@ -23,7 +23,7 @@ int main (){
     int x = 0;
     AvlTree * dictionary = NULL;
     
-    while (x != 6) {
+    while (x != 7) {
 
         if(scanf("%d", &x) != 1) {
             break;
@@ -77,10 +77,14 @@ int main (){
                 printTree(dictionary);
                 break;
             }
+            case 6: {
+                freeTree(dictionary);
+                break;
+            }
         }
     }
 
-    freeTree(dictionary);
+    
     
     return 0;
 }
