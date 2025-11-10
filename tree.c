@@ -276,15 +276,16 @@ void removeWord(char * word, AvlTree * Tree){
 
     Node * father = aux->father;
 
+    int wasLeftChild = 0;
+        if (father != NULL) wasLeftChild = (aux == father->left);
+
     // Caso em que o nó é uma folha
     if (aux->left == NULL && aux->right == NULL){
         if (aux->father != NULL){
             if (aux == aux->father->left){
                 aux->father->left = NULL;
-                aux->father->BF--;
             } else {
                 aux->father->right = NULL;
-                aux->father->BF++;
             }
         } else {
             Tree->root = NULL;
@@ -303,10 +304,8 @@ void removeWord(char * word, AvlTree * Tree){
         if (aux->father != NULL){
             if (aux == aux->father->left){
                 aux->father->left = child;
-                aux->father->BF--;
             } else {
                 aux->father->right = child;
-                aux->father->BF++;
             }
         } else {
             Tree->root = child;
@@ -318,6 +317,9 @@ void removeWord(char * word, AvlTree * Tree){
     //Caso em que o nó possui os 2 filhos 
     else {
         Node * pred = predecessor(aux);
+        father = pred->father;
+        wasLeftChild = (pred == father->left);
+
         char * predWord = strdup(pred->word);
         char * predMeaning = strdup(pred->meaning);
 
@@ -328,9 +330,38 @@ void removeWord(char * word, AvlTree * Tree){
 
         free(predWord);
         free(predMeaning);
+    }   
+
+    Node * temp = father;
+    Node * child = NULL;
+
+
+    while (temp != NULL) {
+    if (child == NULL) {
+        // primeira iteração: usa o valor salvo
+        if (wasLeftChild)
+            temp->BF--;
+        else
+            temp->BF++;
+    } else {
+        // nas próximas iterações, o child ainda é válido
+        if (child == temp->left)
+            temp->BF--;
+        else if (child == temp->right)
+            temp->BF++;
     }
 
-    if(father != NULL) balance(Tree, father);
+    if (temp->BF == 2 || temp->BF == -2) {
+        balance(Tree, temp);
+        break;
+    }
+
+    if (temp->BF != 0)
+        break;
+
+    child = temp;
+    temp = temp->father;
+}
 }
 
 void inOrderPrint(AvlTree * Tree, Node * n){
